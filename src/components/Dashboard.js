@@ -16,7 +16,7 @@ import { Typography } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
-import DeleteDialog from './Dialog';
+import DeleteDialog from './DeleteDialog';
 
 const styles = (theme) => ({
 	table: {
@@ -48,15 +48,16 @@ const styles = (theme) => ({
 class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { isDialogOpen: false };
+		this.state = { isDialogOpen: false, user: null };
 	}
 
 	componentDidMount() {
 		this.props.fetchUsers();
 	}
 
-	openDialog = () => {
-		this.setState({ isDialogOpen: true });
+	openDialog = (user) => {
+		console.log(user);
+		this.setState({ isDialogOpen: true, user });
 	};
 
 	closeDialog = () => {
@@ -134,7 +135,7 @@ class Dashboard extends React.Component {
 										<TableCell align="right">
 											{
 												<Button
-													onClick={this.openDialog}
+													onClick={() => this.openDialog(user)}
 													className={classes.button}
 													variant="contained"
 													color="secondary"
@@ -150,7 +151,11 @@ class Dashboard extends React.Component {
 						</Table>
 					</TableContainer>
 				</div>
-				<DeleteDialog isDialogOpen={this.state.isDialogOpen} closeDialog={this.closeDialog} />
+				<DeleteDialog
+					isDialogOpen={this.state.isDialogOpen}
+					closeDialog={this.closeDialog}
+					user={this.state.user}
+				/>
 			</div>
 		);
 	}

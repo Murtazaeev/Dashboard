@@ -6,6 +6,9 @@ import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 import { Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 
+import { connect } from 'react-redux';
+import { deleteUser } from '../actions';
+
 const styles = (theme) => ({
 	avatarDelete: {
 		backgroundColor: blue[100],
@@ -18,6 +21,11 @@ const styles = (theme) => ({
 });
 
 class DeleteDialog extends Component {
+	handleDelete = () => {
+		this.props.deleteUser(this.props.user.id);
+		this.props.closeDialog();
+	};
+
 	render() {
 		const { classes } = this.props;
 		return (
@@ -26,9 +34,9 @@ class DeleteDialog extends Component {
 				aria-labelledby="delete-dialog-user"
 				onClose={this.props.closeDialog}
 			>
-				<DialogTitle id="delete-dialog-title">Delete this users</DialogTitle>
+				<DialogTitle id="delete-dialog-title">{`Do you want to delete ${this.props.user?.name}`}</DialogTitle>
 				<List>
-					<ListItem button>
+					<ListItem button onClick={this.handleDelete}>
 						<ListItemAvatar>
 							<Avatar className={classes.avatarDelete}>
 								<CheckIcon />
@@ -50,4 +58,4 @@ class DeleteDialog extends Component {
 	}
 }
 
-export default withStyles(styles)(DeleteDialog);
+export default connect(null, { deleteUser })(withStyles(styles)(DeleteDialog));
