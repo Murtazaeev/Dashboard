@@ -12,9 +12,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { darken } from '@material-ui/core';
 
+import { Typography } from '@material-ui/core';
+
 import { connect } from 'react-redux';
 import { fetchUsers } from '../actions';
-import { Typography } from '@material-ui/core';
+import DeleteDialog from './Dialog';
 
 const styles = (theme) => ({
 	table: {
@@ -44,9 +46,22 @@ const styles = (theme) => ({
 });
 
 class Dashboard extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { isDialogOpen: false };
+	}
+
 	componentDidMount() {
 		this.props.fetchUsers();
 	}
+
+	openDialog = () => {
+		this.setState({ isDialogOpen: true });
+	};
+
+	closeDialog = () => {
+		this.setState({ isDialogOpen: false });
+	};
 
 	handleAddNew = () => {
 		this.props.history.push('/add');
@@ -54,6 +69,10 @@ class Dashboard extends React.Component {
 
 	handleEdit = (id) => {
 		this.props.history.push(`/edit/${id}`);
+	};
+
+	handleDelete = (user) => {
+		console.log(user);
 	};
 
 	getRows = () => {
@@ -115,6 +134,7 @@ class Dashboard extends React.Component {
 										<TableCell align="right">
 											{
 												<Button
+													onClick={this.openDialog}
 													className={classes.button}
 													variant="contained"
 													color="secondary"
@@ -130,6 +150,7 @@ class Dashboard extends React.Component {
 						</Table>
 					</TableContainer>
 				</div>
+				<DeleteDialog isDialogOpen={this.state.isDialogOpen} closeDialog={this.closeDialog} />
 			</div>
 		);
 	}
