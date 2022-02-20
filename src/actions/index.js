@@ -12,9 +12,7 @@ export const fetchUser = (id) => async (dispatch) => {
 };
 
 export const deleteUser = (id) => async (dispatch) => {
-	const response = await axios.delete(
-		`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`
-	);
+	await axios.delete(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`);
 
 	dispatch({ type: 'DELETE_USER', payload: { id: id } });
 };
