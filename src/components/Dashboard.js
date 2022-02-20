@@ -48,6 +48,14 @@ class Dashboard extends React.Component {
 		this.props.fetchUsers();
 	}
 
+	handleAddNew = () => {
+		this.props.history.push('/add');
+	};
+
+	handleEdit = (id) => {
+		this.props.history.push(`/edit/${id}`);
+	};
+
 	getRows = () => {
 		return (
 			<TableRow>
@@ -74,7 +82,7 @@ class Dashboard extends React.Component {
 						<Typography className={classes.typography} variant="h4">
 							User list
 						</Typography>
-						<Button variant="contained" color="primary" size="large">
+						<Button onClick={this.handleAddNew} variant="contained" color="primary" size="large">
 							Add new
 						</Button>
 					</Paper>
@@ -94,6 +102,7 @@ class Dashboard extends React.Component {
 										<TableCell align="right">
 											{
 												<Button
+													onClick={() => this.handleEdit(user.id)}
 													className={classes.editButton}
 													variant="contained"
 													color="primary"

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button, Input, Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { darken } from '@material-ui/core';
@@ -41,9 +42,12 @@ const styles = (theme) => ({
 class Form extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { name: '', email: '' };
+		this.state = { name: '', email: '', id: undefined };
 	}
-
+	componentDidMount() {
+		const { id } = this.props.match.params;
+		this.setState({ id });
+	}
 	handleChange = (e) => {
 		this.setState({
 			[e.target.name]: e.target.value
@@ -52,8 +56,12 @@ class Form extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log('Clicked');
+		console.log(this.state.id);
 		this.setState({ name: '', email: '' });
+	};
+
+	handleCancel = () => {
+		this.props.history.push('/');
 	};
 
 	render() {
@@ -85,7 +93,7 @@ class Form extends Component {
 							onChange={this.handleChange}
 						/>
 						<div className={classes.buttonContainer}>
-							<Button variant="outlined" color="secondary">
+							<Button onClick={this.handleCancel} variant="outlined" color="secondary">
 								Cancel
 							</Button>
 							<Button type="submit" className={classes.submitButton} variant="contained" color="primary">
