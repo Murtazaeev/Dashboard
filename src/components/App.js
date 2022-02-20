@@ -1,9 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import Dashboard from './Dashboard';
+import Form from './Form';
 
-function App() {
-	return <Dashboard />;
+class App extends React.Component {
+	render() {
+		return <Form />;
+	}
 }
 
 export default App;
